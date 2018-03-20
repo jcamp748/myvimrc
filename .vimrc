@@ -12,17 +12,21 @@ let maplocalleader = "\\"
 
 " set colorscheme
 colorscheme railscasts
+highlight Normal ctermbg=NONE
+highlight nonText ctermbg=NONE
 
 " turn off highlighting
 highlight Special NONE
 set number		"show line numbers
 
 " better window switching
-nnoremap <c-j> <c-w>j<c-w>_
-nnoremap <c-k> <c-w>k<c-w>_
+" add a _ after last <c-w> to make windows minimize on switch
+nnoremap <c-j> <c-w>j<c-w><esc>
+nnoremap <c-k> <c-w>k<c-w><esc>
 nnoremap <c-h> <c-w>h<c-w><esc>
 nnoremap <c-l> <c-w>l<c-w><esc>
-set winminheight=0
+"set winheight=10
+"set winminheight=10
 
 " show long lines in red
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
@@ -32,7 +36,10 @@ match OverLength /\%81v.\+/
 set nowrap
 
 " open a file with all folds closed
-set foldlevelstart=0
+let foldlevelstart=0
+
+" set search highlighting options
+set hlsearch incsearch
 " }}}
 " Makefile Settings {{{
 augroup filetype_make
@@ -45,8 +52,13 @@ augroup end
 " i came across a problem getting syntastic to work
 " on a javascript file, i removed syntax enable then
 " added it back and it worked
+"let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_javascript_checkers=['jshint']
-let g:syntastic_javascript_jshint_exec='/home/jordan/.nvm/v5.5.0/bin/jshint'
+"let g:syntastic_javascript_eslint_exec='/home/jordan/.nvm/versions/node/v12.3.0/bin/eslint'
+let g:syntastic_javascript_jshint_exec='/home/jordan/.nvm/versions/node/v9.3.0/bin/jshint'
+"let g:syntastic_javascript_eslint_exec='$(npm bin)/eslint'
+
+
 "add include paths in .syntastic_c_config file
 "let g:syntastic_c_check_header = 1
 "let g:syntastic_coffee_checkers=['coffeelint']
@@ -78,11 +90,29 @@ command! G Dispatch! gulp
 " shortcut for end of line in insert mode
 :inoremap <c-e> <esc>$a
 
+" shortcut to move forward one char in insert mode
+:inoremap <c-f> <esc>la
+
+" shortcut to move backward one char in insert mode
+:inoremap <c-b> <esc>i
+
 "shortcut for executing macro on letter d
 :nnoremap <leader>f @d
 
 " toggle folds with spacebar
 nnoremap <space> za
+
+"open previous buffer to the right of current
+nnoremap <leader>rr :execute "rightbelow vsplit ". bufname("#") <cr>
+
+" automatically insert the \v whenever you begin a search
+nnoremap / /\v
+
+" map <c-l> to redraw the screen
+nnoremap <c-l> :redraw! <cr>
+
+
+
 
 "}}}
 " Closetag Plugin Settings {{{
@@ -106,3 +136,5 @@ augroup filetype_vim
   autocmd FileType vim setlocal foldmethod=marker
 augroup end
 "}}}
+
+let g:slimv_swank_cmd = '! tmux new-window -d -n REPL-SBCL "sbcl --load ~/.vim/bundle/slimv/slime/start-swank.lisp"'
