@@ -21,12 +21,12 @@ set number		"show line numbers
 
 " better window switching
 " add a _ after last <c-w> to make windows minimize on switch
-nnoremap <c-j> <c-w>j<c-w><esc>
-nnoremap <c-k> <c-w>k<c-w><esc>
+nnoremap <c-j> <c-w>j<c-w>_
+nnoremap <c-k> <c-w>k<c-w>_
 nnoremap <c-h> <c-w>h<c-w><esc>
 nnoremap <c-l> <c-w>l<c-w><esc>
 "set winheight=10
-"set winminheight=10
+set winminheight=0
 
 " show long lines in red
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
@@ -57,6 +57,8 @@ let g:syntastic_javascript_checkers=['jshint']
 "let g:syntastic_javascript_eslint_exec='/home/jordan/.nvm/versions/node/v12.3.0/bin/eslint'
 let g:syntastic_javascript_jshint_exec='/home/jordan/.nvm/versions/node/v9.3.0/bin/jshint'
 "let g:syntastic_javascript_eslint_exec='$(npm bin)/eslint'
+let g:syntastic_css_checkers=['csslint']
+let g:syntastic_css_csslint_exec='/home/jordan/.nvm/versions/node/v9.3.0/bin/csslint'
 
 
 "add include paths in .syntastic_c_config file
@@ -109,10 +111,13 @@ nnoremap <leader>rr :execute "rightbelow vsplit ". bufname("#") <cr>
 nnoremap / /\v
 
 " map <c-l> to redraw the screen
-nnoremap <c-l> :redraw! <cr>
+nnoremap <s-l> :redraw! <cr>
 
+" map Y to yank to system clipboard
+vmap <s-y> "+y
 
-
+" map P to paste from system clipboard
+nnoremap <s-p> "+p
 
 "}}}
 " Closetag Plugin Settings {{{
